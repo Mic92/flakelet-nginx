@@ -82,7 +82,7 @@ def main() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         staged = Path(tmp)
         for f in sorted(EXPORTS_DIR.glob("*.json")) if EXPORTS_DIR.is_dir() else []:
-            exports = json.loads(f.read_text())
+            exports = json.loads(f.read_text()) or {}
             conf = "".join(server(e) for e in exports.get("http", {}).values())
             if conf:
                 (staged / f"{f.stem}.conf").write_text(conf)
